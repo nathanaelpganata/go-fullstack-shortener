@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Shorten</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body
+        class="flex flex-col justify-center items-center w-full min-h-screen bg-slate-900 text-neutral-200 font-medium gap-8 px-4"
+    >
+        <h1 class="text-5xl font-semibold">
+            Link
+            <span
+                class="before:block before:absolute before:-inset-x-1 before:-inset-y-1.5 before:-skew-y-2 before:bg-amber-500 relative inline-block"
+            >
+                <span class="relative text-white">Shortener</span>
+            </span>
+        </h1>
+        {{embed}}
+    </body>
+</html>

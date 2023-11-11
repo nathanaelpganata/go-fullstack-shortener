@@ -1,0 +1,42 @@
+<div class="flex flex-col items-center justify-center max-w-lg w-full gap-4">
+    <div
+        class="flex flex-row items-center justify-center text-black font-medium w-full"
+    >
+        <a
+            class="bg-neutral-200 rounded-l-md py-2 px-3 w-full hover:underline decoration-slate-800 underline-offset-8 text-center whitespace-nowrap truncate ..."
+            href="https://{{.DOMAIN_NAME}}/{{.ShortUrl}}"
+            id="copyShortUrl"
+            >https://{{.DOMAIN_NAME}}/{{.ShortUrl}}</a
+        >
+        <div
+            class="bg-neutral-200 rounded-r-md py-2 px-3 hover:brightness-90 bg-neutral-300"
+            onclick="copyToClipboard()"
+        >
+            <button class="font-semibold" id="isCopied">Copy!</button>
+        </div>
+    </div>
+    <a
+        href="/"
+        class="hover:brightness-90 hover:bg-slate-800 transition-all duration-200 rounded-xl px-4 py-1.5 text-white font-semibold"
+        >Back</a
+    >
+</div>
+
+<script>
+    function copyToClipboard() {
+        var copyText = document.getElementById("copyShortUrl").innerText;
+        navigator.clipboard
+            .writeText(copyText)
+            .then(function () {
+                var isCopiedElement = document.getElementById("isCopied");
+                isCopiedElement.innerHTML = "Copied!";
+                setTimeout(function () {
+                    isCopiedElement.innerHTML = "Copy!";
+                }, 3000);
+            })
+            .catch(function (err) {
+                var isCopiedElement = document.getElementById("isCopied");
+                isCopiedElement.innerHTML = err;
+            });
+    }
+</script>

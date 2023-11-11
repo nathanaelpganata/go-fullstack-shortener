@@ -1,0 +1,107 @@
+<div class="flex flex-col justify-center max-w-lg w-full items-center">
+    <form
+        action="/shorten"
+        method="POST"
+        class="flex flex-col items-center justify-center gap-2 w-full"
+    >
+        <div class="flex flex-col gap-0.5 items-start w-full">
+            <label for="originalUrl" class="font-semibold">Original URL</label>
+            <input
+                type="text"
+                class="border-none bg-neutral-200 rounded-md px-4 py-1.5 text-black font-semibold outline-none w-full"
+                id="originalUrl"
+                name="originalUrl"
+                placeholder="Your long URL..."
+                aria-placeholder="Your long URL..."
+                oninput="validateOriginalURL(this)"
+                required
+            />
+            <p id="validationOriginalURL" class="text-sm"></p>
+        </div>
+        <div class="flex flex-col gap-0.5 items-start w-full">
+            <label for="shortUrl" class="font-semibold">Short URL</label>
+            <div class="flex fex-row w-full">
+                <p
+                    class="border-none bg-neutral-200 rounded-l-md px-2 py-1.5 text-black font-semibold outline-none w-max bg-neutral-300"
+                >
+                    short.com/go/
+                </p>
+                <input
+                    type="text"
+                    class="border-none bg-neutral-200 rounded-r-md px-4 py-1.5 text-black font-semibold outline-none w-full"
+                    id="shortUrl"
+                    name="shortUrl"
+                    placeholder="Your custom link"
+                    aria-placeholder="Your custom link"
+                    oninput="validateShortURL(this)"
+                    required
+                />
+            </div>
+            <p id="validationShortURL" class="text-sm"></p>
+        </div>
+        <p class="text-sm text-red-600 rounded-md items-start">
+            {{.ErrorMessage}}
+        </p>
+        <button
+            type="submit"
+            id="submitButton"
+            class="hover:brightness-90 hover:bg-slate-800 w-10/12 transition-all duration-200 rounded-xl px-4 py-1.5 text-white font-semibold disabled:brightness-50"
+        >
+            Shorten!
+        </button>
+    </form>
+</div>
+
+<script>
+    var submitButtonElement = document.getElementById("submitButton");
+    submitButtonElement.disabled = true;
+    var cleanOriginalURL = false;
+    var cleanShortURL = false;
+
+    function validateOriginalURL(inputElement) {
+        var inputValue = inputElement.value;
+        var validationOriginalURLElement = document.getElementById(
+            "validationOriginalURL"
+        );
+
+        var urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+
+        if (
+            !urlRegex.test(inputValue) ||
+            inputValue.length <= 8 ||
+            inputValue.length > 255
+        ) {
+            validationOriginalURLElement.innerText = "Invalid URL";
+            validationOriginalURLElement.style.color = "red";
+            cleanOriginalURL = false;
+        } else {
+            validationOriginalURLElement.innerText = "";
+            cleanOriginalURL = true;
+        }
+        checkValidation();
+    }
+
+    function validateShortURL(inputElement) {
+        var inputValue = inputElement.value;
+        var validationShortURLElement =
+            document.getElementById("validationShortURL");
+
+        if (inputValue.length > 50 || inputValue.length < 4) {
+            validationShortURLElement.innerText = "Characters between 4 and 50";
+            validationShortURLElement.style.color = "red";
+            cleanShortURL = false;
+        } else {
+            validationShortURLElement.innerText = "";
+            cleanShortURL = true;
+        }
+        checkValidation();
+    }
+
+    function checkValidation() {
+        if (cleanShortURL && cleanOriginalURL) {
+            submitButtonElement.disabled = false;
+        } else {
+            submitButtonElement.disabled = true;
+        }
+    }
+</script>
